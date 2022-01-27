@@ -19,11 +19,11 @@ const gravity_graph_options = {
   },
 
   legend: {
-    data: ["1", "2"],
     orient: "vertical",
   },
   series: [
     {
+      name: "A",
       data: [
         [17316.0, -1023.6],
         [380952.4, -1022.7],
