@@ -1,14 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  setCumInjectedGasVolume,
-  setGasFVF,
-  setOilAndWaterSatBeforeGasInjection,
   setOilSatAfterGasInjection,
   setWaterSatAfterGasInjection,
-  setOilFVFAfterGasInjection,
   setOilSwellingFactor,
   setWaterSatBelowGasLevelAfterGasInjection,
+  setLevelSeriesData,
 } from "../../store/gravity-drainage-slice";
 
 const GravityInputsAfterInjection = () => {
@@ -60,7 +57,7 @@ const GravityInputsAfterInjection = () => {
                 min="0"
                 max="0.5"
                 step=".01"
-                class="form-range"
+                className="form-range"
                 onChange={(e) =>
                   dispatch(setWaterSatAfterGasInjection(e.target.value))
                 }
@@ -110,7 +107,12 @@ const GravityInputsAfterInjection = () => {
         </tbody>
       </table>
       <div className="d-flex justify-content-end">
-        <button type="submit" size="md" className="btn btn-outline-success">
+        <button
+          type="submit"
+          size="md"
+          className="btn btn-outline-success"
+          onClick={() => dispatch(setLevelSeriesData())}
+        >
           Run
         </button>
       </div>
