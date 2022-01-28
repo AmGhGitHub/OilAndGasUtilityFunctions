@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import echarts from "echarts";
 import useEcharts from "react-hooks-echarts";
+
+const colors = ["#5470C6", "#EE6666"];
 const gravity_graph_options = {
   xAxis: {
     position: "top",
     max: 2800,
-    maxInterval: 200,
-    // axisLabel: {
-    //   formatter: (value) => value / 1e6,
-    //   align: "center",
-    // },
+    min: -2000,
   },
   yAxis: {
     offset: 0,
@@ -21,8 +19,11 @@ const gravity_graph_options = {
       onZero: false,
     },
   },
+
   legend: {
-    // orient: "vertical",
+    orient: "vertical",
+    right: 10,
+    top: "center",
   },
   series: [
     {
@@ -77,7 +78,8 @@ const gravity_graph_options = {
       ],
       type: "line",
       showSymbol: false,
-      lineStyle: {
+      smooth: true,
+      itemStyle: {
         width: 4,
         color: "#947100",
       },
@@ -123,10 +125,13 @@ const gravity_graph_options = {
       ],
       type: "line",
       showSymbol: false,
+      smooth: true,
       lineStyle: {
-        width: 1,
-        color: "gray",
         type: "dashed",
+        width: 1,
+      },
+      itemStyle: {
+        color: "#026666",
       },
     },
     {
@@ -173,15 +178,18 @@ const gravity_graph_options = {
       ],
       type: "line",
       showSymbol: false,
+      smooth: true,
       lineStyle: {
-        width: 1,
-        color: "gray",
         type: "dashed",
+        width: 1,
+      },
+      itemStyle: {
+        color: "gray",
       },
     },
     // Injectors
     {
-      name: "Injector",
+      name: "Injectors",
       data: [
         [-570, -1017],
         [2295, -1017],
@@ -189,9 +197,11 @@ const gravity_graph_options = {
       type: "line",
       showSymbol: false,
       lineStyle: {
-        width: 4,
-        color: "red",
         type: "solid",
+        width: 3,
+      },
+      itemStyle: {
+        color: "red",
       },
     },
     // // Producers
@@ -204,11 +214,14 @@ const gravity_graph_options = {
       type: "line",
       showSymbol: false,
       lineStyle: {
-        width: 4,
-        color: "green",
         type: "solid",
+        width: 3,
+      },
+      itemStyle: {
+        color: "green",
       },
     },
+    // WOC
     {
       name: "WOC",
       data: [
@@ -218,9 +231,11 @@ const gravity_graph_options = {
       type: "line",
       showSymbol: false,
       lineStyle: {
-        width: 4,
-        color: "blue",
         type: "solid",
+        width: 3,
+      },
+      itemStyle: {
+        color: "blue",
       },
     },
   ],
@@ -245,11 +260,17 @@ const GravityGraph = () => {
   }, [chartRef]);
 
   return (
-    <div
-      ref={ref}
-      className="chart"
-      style={{ height: "600px", marginTop: "0rem" }}
-    ></div>
+    <>
+      <section className="mt-4">
+        <div className="container border">
+          <h4 className="mb-3">Results</h4>
+          <div className="row my-3">
+            <h5 className="text-primary">Levels</h5>
+            <div ref={ref} style={{ height: "600px" }}></div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 
