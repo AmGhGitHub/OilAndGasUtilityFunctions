@@ -62,11 +62,11 @@ const gravityDrainageSlice = createSlice({
 
       state.irr_liquid_sat_after_gas_injection = roundNumber(value, 3);
     },
-    // setWaterSatBelowGasLevelBeforeGasInjection: (state, action) => {
-    //   const { payload } = action;
-    //   state.water_sat_below_gas_level_before_gas_injection =
-    //     parseFloat(payload);
-    // },
+    setWaterSatBelowGasLevelBeforeGasInjection: (state, action) => {
+      const { payload } = action;
+      state.water_sat_below_gas_level_before_gas_injection =
+        parseFloat(payload);
+    },
     setWaterSatBelowGasLevelAfterGasInjection: (state, action) => {
       const { payload } = action;
       state.water_sat_below_gas_level_after_gas_injection = parseFloat(payload);

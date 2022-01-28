@@ -1,4 +1,4 @@
-import Gravity from "./components/gravity_drainage/Gravity";
+import Gravity from "./components/gravity_drainage";
 import store from "./store";
 import { Provider } from "react-redux";
 
