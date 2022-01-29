@@ -9,10 +9,7 @@ const Gravity = () => {
       <GravityLogo />
       <InjectionSepcs />
       <GravityInputs />
-
-      <div className="row">
-        <GravityGraph />
-      </div>
+      <GravityGraph />
     </>
   );
 };

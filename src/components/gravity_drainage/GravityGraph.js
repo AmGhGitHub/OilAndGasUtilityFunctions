@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import echarts from "echarts";
 import useEcharts from "react-hooks-echarts";
 import { useSelector } from "react-redux";
@@ -51,17 +51,15 @@ const GravityGraph = () => {
   }, [chartRef, levels_series_data]);
 
   return (
-    <>
-      <section className="mt-4">
-        <div className="container border">
-          <h4 className="mb-3">Results</h4>
-          <div className="row my-3">
-            <h5 className="text-primary">Levels</h5>
-            <div ref={ref} style={{ height: "600px" }}></div>
-          </div>
+    <section className="mt-4">
+      <div className="container border">
+        <h4 className="mb-3">Results</h4>
+        <div className="row my-3">
+          <h5 className="text-primary">Levels</h5>
+          <div ref={ref} style={{ height: "600px" }}></div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

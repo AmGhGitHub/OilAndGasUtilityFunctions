@@ -122,9 +122,6 @@ const gravityDrainageSlice = createSlice({
           },
         },
       ];
-
-      // state.levels_series_data = data;
-      // console.log(state.levels_series_data);
     },
 
     setCumInjectedGasVolume: (state, action) => {
@@ -133,7 +130,7 @@ const gravityDrainageSlice = createSlice({
     },
     setGasFVF: (state, action) => {
       const { payload } = action;
-      state.gas_fvf = parseFloat(payload);
+      state.gas_fvf *= 1.0 + parseFloat(payload) / 100.0;
     },
     setOilAndWaterSatBeforeGasInjection: (state, action) => {
       const { payload } = action;
