@@ -1,22 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { roundNumber } from "../util/numberUtility";
+import { fixedDecimalNumber } from "../util/numberUtility";
 import series_data from "./data/levels_data";
 
 const initial_data = {
+  // inpurt parameters
   levels_series_data: series_data,
-  gas_vol: 1265,
+  gas_vol: 400,
   gas_bg: 0.003852,
-  soi_gz: 0.47, //initial oil saturation in gas invading zone
-  sor_gz: 0.2,
-  swi_gz: 0.53,
-  swr_gz: 0.25,
+  soi_gz: 47, //initial oil saturation in gas invading zone
+  sor_gz: 20,
+  swi_gz: 53,
+  swr_gz: 25,
   sli_gz: 1.0,
-  slr_gz: 0.45,
-  swi_wz: 0.53,
-  swr_wz: 0.15,
+  slr_gz: 45,
+  swi_wz: 53,
+  swr_wz: 15,
   oil_sf: 1.2,
   boi_gz: 1.32,
   bo_gz: 1.32,
+  //calculated parameters
+  gas_pv: 0.0,
+  oil_pv: 0.0,
+  gas_level_m: 0.0,
+  oil_level_m: 0.0,
+  oil_layer_thickness_m: 0.0,
+  total_oil_volume_contacted_by_gas: 0.0,
+  drainable_oil_volume_contacted_by_gas: 0.0,
+  oil_drainage_recovery_efficiency: 0.0,
 };
 
 function get_fluid_levels(
@@ -32,20 +42,40 @@ function get_fluid_levels(
   swr_wz,
   ref_level = -994
 ) {
-  const gas_pv = (gas_vol * gas_bg) / (1.0 - swr_gz - sor_gz);
-  let gas_level_m = (-b + Math.sqrt(b * b + 4.0 * a * gas_pv)) / (2.0 * a);
-  gas_level_m = -gas_level_m + ref_level;
+  let gas_pv = 0.0;
+  let oil_pv = 0.0;
+  let gas_level_m = ref_level;
+  let oil_level_m = ref_level;
+  let oil_layer_thickness_m = 0.0;
+  let total_oil_volume_contacted_by_gas = 0.0;
+  let drainable_oil_volume_contacted_by_gas = 0.0;
+  let oil_drainage_recovery_efficiency = 0.0;
 
-  const residual_oil_volume_contacted_by_gas = soi_gz * gas_pv;
-  const drainable_oil_volume_contacted_by_gas =
-    gas_pv * (soi_gz - sor_gz) * oil_sf;
+  if (gas_vol > 0) {
+    gas_pv = (gas_vol * gas_bg * 100.0) / (100.0 - swr_gz - sor_gz);
+    gas_level_m -= (-b + Math.sqrt(b * b + 4.0 * a * gas_pv)) / (2.0 * a);
 
-  const oil_pv = drainable_oil_volume_contacted_by_gas / (swi_wz - swr_wz);
-  let oil_level_m =
-    (-b + Math.sqrt(b * b + 4.0 * a * (gas_pv + oil_pv))) / (2.0 * a);
-  oil_level_m = -oil_level_m + ref_level;
-
-  return [gas_level_m, oil_level_m, gas_pv, oil_pv];
+    total_oil_volume_contacted_by_gas = gas_pv * (soi_gz / 100.0);
+    drainable_oil_volume_contacted_by_gas =
+      gas_pv * ((soi_gz - sor_gz) / 100.0) * oil_sf;
+    oil_drainage_recovery_efficiency =
+      (100.0 * drainable_oil_volume_contacted_by_gas) /
+      (total_oil_volume_contacted_by_gas * oil_sf);
+    oil_pv = (drainable_oil_volume_contacted_by_gas * 100) / (swi_wz - swr_wz);
+    oil_level_m -=
+      (-b + Math.sqrt(b * b + 4.0 * a * (gas_pv + oil_pv))) / (2.0 * a);
+    oil_layer_thickness_m = gas_level_m - oil_level_m;
+  }
+  return [
+    gas_pv,
+    oil_pv,
+    gas_level_m,
+    oil_level_m,
+    oil_layer_thickness_m,
+    total_oil_volume_contacted_by_gas,
+    drainable_oil_volume_contacted_by_gas,
+    oil_drainage_recovery_efficiency,
+  ];
 }
 
 const gravityDrainageSlice = createSlice({
@@ -69,7 +99,16 @@ const gravityDrainageSlice = createSlice({
         swr_wz,
       } = state;
 
-      const [gas_level_m, oil_level_m] = get_fluid_levels(
+      const [
+        gas_pv,
+        oil_pv,
+        gas_level_m,
+        oil_level_m,
+        oil_layer_thickness_m,
+        total_oil_volume_contacted_by_gas,
+        drainable_oil_volume_contacted_by_gas,
+        oil_drainage_recovery_efficiency,
+      ] = get_fluid_levels(
         a,
         b,
         gas_vol,
@@ -81,6 +120,25 @@ const gravityDrainageSlice = createSlice({
         swi_wz,
         swr_wz
       );
+
+      // console.log(
+      //   "gas_pv:\n",
+      //   gas_pv,
+      //   "\noil_pv:\n",
+      //   oil_pv,
+      //   "\ngas_level_m:\n",
+      //   gas_level_m,
+      //   "\noil_level_m:\n",
+      //   oil_level_m,
+      //   "\noil_layer_thickness_m:\n",
+      //   oil_layer_thickness_m,
+      //   "\ntotal_oil_volume_contacted_by_gas:\n",
+      //   total_oil_volume_contacted_by_gas,
+      //   "\ndrainable_oil_volume_contacted_by_gas:\n",
+      //   drainable_oil_volume_contacted_by_gas,
+      //   "\noil_drainage_recovery_efficiency:\n",
+      //   oil_drainage_recovery_efficiency
+      // );
 
       state.levels_series_data = [
         ...series_data,
@@ -127,27 +185,26 @@ const gravityDrainageSlice = createSlice({
     },
     setGasFVF: (state, action) => {
       const { payload } = action;
-      state.gas_bg *= 1.0 + parseFloat(payload) / 100.0;
+      const gas_bg_base = 0.003852; //base value for pure CO2
+      state.gas_bg = gas_bg_base * (1.0 + parseFloat(payload) / 100.0);
     },
     setSoiAndSwiGZ: (state, action) => {
       const { payload } = action;
       const soi = parseFloat(payload);
       state.soi_gz = soi;
-      state.swi_gz = roundNumber(1 - soi, 3);
-      state.sli_gz = roundNumber(soi + state.swi_gz, 3);
+      state.swi_gz = 100 - soi;
+      state.sli_gz = soi + state.swi_gz;
       if (state.swi_gz < state.swr_gz) state.swr_gz = state.swi_gz;
     },
     setSorGZ: (state, action) => {
       const { payload } = action;
       state.sor_gz = parseFloat(payload);
-      const value = state.sor_gz + state.swr_gz;
-      state.slr_gz = roundNumber(value, 3);
+      state.slr_gz = state.sor_gz + state.swr_gz;
     },
     setSwrGZ: (state, action) => {
       const { payload } = action;
       state.swr_gz = parseFloat(payload);
-      const value = state.sor_gz + state.swr_gz;
-      state.slr_gz = roundNumber(value, 3);
+      state.slr_gz = state.sor_gz + state.swr_gz;
     },
     setSwiWZ: (state, action) => {
       const { payload } = action;

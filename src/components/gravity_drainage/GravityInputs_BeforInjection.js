@@ -1,12 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 
 import { setSoiAndSwiGZ, setSwiWZ } from "../../store/gravity-drainage-slice";
+import { fixedDecimalNumber } from "../../util/numberUtility";
 
 const GravityInputsBeforeInjection = () => {
   const { soi_gz, swi_gz, swi_wz } = useSelector(
     (state) => state.gravityDrainage
   );
-
   const dispatch = useDispatch();
 
   return (
@@ -22,15 +22,14 @@ const GravityInputsBeforeInjection = () => {
       </thead>
       <tbody>
         <tr>
-          <td>Oil Sat. (Gas Invading Zone)</td>
-          <td>fraction</td>
+          <td>Soi (Gas Invading Zone)</td>
+          <td>%</td>
           <td className="text-center">
             <input
               type="range"
               className="form-range"
-              min="0.2"
-              max="0.55"
-              step="0.01"
+              min="20"
+              max="55"
               value={soi_gz}
               onChange={(e) => dispatch(setSoiAndSwiGZ(e.target.value))}
             />
@@ -38,48 +37,31 @@ const GravityInputsBeforeInjection = () => {
           <td className="text-center">{soi_gz}</td>
         </tr>
         <tr>
-          <td>Water Sat. (Gas Invading Zone)</td>
+          <td>Swi (Gas Invading Zone)</td>
           <td>fraction</td>
           <td>
-            <input
-              type="range"
-              className="form-range"
-              min="0"
-              max="0.55"
-              step="0.01"
-              value="0"
-              disabled
-            />
+            <input type="range" className="form-range" value="0" disabled />
           </td>
           <td className="text-primary text-center">{swi_gz}</td>
         </tr>
 
         <tr>
           <td>Oil Swelling Factor</td>
-          <td>fraction</td>
+          <td>%</td>
           <td>
-            <input
-              type="range"
-              className="form-range"
-              min="0"
-              max="0.55"
-              step="0.01"
-              value="0"
-              disabled
-            />
+            <input type="range" className="form-range" value="0" disabled />
           </td>
-          <td className="text-center">1.0</td>
+          <td className="text-center">1.00</td>
         </tr>
         <tr>
-          <td>Water Sat. (Below Gas Level)</td>
-          <td>fraction</td>
+          <td>Swi (Below Gas Level)</td>
+          <td>%</td>
           <td>
             <input
               type="range"
               className="form-range"
-              min="0"
-              max="0.50"
-              step="0.01"
+              min="15"
+              max="53"
               value={swi_wz}
               onChange={(e) => dispatch(setSwiWZ(e.target.value))}
             />

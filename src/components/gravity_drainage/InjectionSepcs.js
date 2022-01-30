@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { formatThousandSeparator } from "../../util/numberUtility";
+import { formatThousandSeparator, formatGasBg } from "../../util/numberUtility";
 
 import { setGasVol, setGasFVF } from "../../store/gravity-drainage-slice";
 
 const InjectionSepcs = () => {
   const [bgDev_pct, setBgDevPct] = useState(0);
-  const { gas_vol } = useSelector((state) => state.gravityDrainage);
+  const { gas_vol, gas_bg } = useSelector((state) => state.gravityDrainage);
 
   const dispatch = useDispatch();
 
@@ -49,9 +49,10 @@ const InjectionSepcs = () => {
                     dispatch(setGasFVF(e.target.value));
                   }}
                 />
+                <p className="text-danger">{formatGasBg(gas_bg)}e-3 rm3/sm3</p>
               </div>
               <div className="col-sm-2">
-                <h5>{bgDev_pct} %</h5>
+                <h5>{bgDev_pct}%</h5>
               </div>
             </div>
           </div>

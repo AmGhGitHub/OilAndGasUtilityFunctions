@@ -5,8 +5,9 @@ import {
   setSwrGZ,
   setOilSF,
   setSwrWZ,
-  setOilAndGasLevels,
 } from "../../store/gravity-drainage-slice";
+
+import { fixedDecimalNumber } from "../../util/numberUtility";
 
 const GravityInputsAfterInjection = () => {
   const { sor_gz, swr_gz, oil_sf, swr_wz } = useSelector(
@@ -29,15 +30,14 @@ const GravityInputsAfterInjection = () => {
         </thead>
         <tbody>
           <tr>
-            <td>Oil Sat. (Gas Invaded Zone)</td>
-            <td>fraction</td>
+            <td>Sorg (Gas Invaded Zone)</td>
+            <td>%</td>
             <td>
               <input
                 type="range"
                 className="form-range"
-                min="0.05"
-                max="0.5"
-                step="0.01"
+                min="8"
+                max="55"
                 value={sor_gz}
                 onChange={(e) => dispatch(setSorGZ(e.target.value))}
               />
@@ -45,14 +45,13 @@ const GravityInputsAfterInjection = () => {
             <td className="text-center">{sor_gz}</td>
           </tr>
           <tr>
-            <td>Water Sat. (Gas Invaded Zone)</td>
-            <td>fraction</td>
+            <td>Swrg (Gas Invaded Zone)</td>
+            <td>%</td>
             <td>
               <input
                 type="range"
-                min="0.15"
-                max="0.5"
-                step=".01"
+                min="15"
+                max="50"
                 value={swr_gz}
                 className="form-range"
                 onChange={(e) => dispatch(setSwrGZ(e.target.value))}
@@ -75,18 +74,17 @@ const GravityInputsAfterInjection = () => {
                 onChange={(e) => dispatch(setOilSF(e.target.value))}
               />
             </td>
-            <td className="text-center">{oil_sf}</td>
+            <td className="text-center">{fixedDecimalNumber(oil_sf, 2)}</td>
           </tr>
           <tr>
-            <td>Water Sat. (Below Gas Level)</td>
-            <td>fraction</td>
+            <td>Swr (Below Gas Level)</td>
+            <td>%</td>
             <td>
               <input
                 type="range"
                 className="form-range"
-                min="0.15"
-                max="0.4"
-                step="0.01"
+                min="15"
+                max="40"
                 value={swr_wz}
                 onChange={(e) => dispatch(setSwrWZ(e.target.value))}
               />
