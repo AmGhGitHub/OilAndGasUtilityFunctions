@@ -2,16 +2,11 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { formatThousandSeparator } from "../../util/numberUtility";
 
-import {
-  setCumInjectedGasVolume,
-  setGasFVF,
-} from "../../store/gravity-drainage-slice";
+import { setGasVol, setGasFVF } from "../../store/gravity-drainage-slice";
 
 const InjectionSepcs = () => {
   const [bgDev_pct, setBgDevPct] = useState(0);
-  const { cum_injected_gas_volume } = useSelector(
-    (state) => state.gravityDrainage
-  );
+  const { gas_vol } = useSelector((state) => state.gravityDrainage);
 
   const dispatch = useDispatch();
 
@@ -29,14 +24,12 @@ const InjectionSepcs = () => {
                   min="0"
                   max="4000"
                   className="w-100"
-                  value={cum_injected_gas_volume}
-                  onChange={(e) =>
-                    dispatch(setCumInjectedGasVolume(e.target.value))
-                  }
+                  value={gas_vol}
+                  onChange={(e) => dispatch(setGasVol(e.target.value))}
                 />
               </div>
               <div className="col-sm-2">
-                <h5>{formatThousandSeparator(cum_injected_gas_volume)}</h5>
+                <h5>{formatThousandSeparator(gas_vol)}</h5>
               </div>
             </div>
           </div>

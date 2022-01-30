@@ -1,16 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  setOilAndWaterSatBeforeGasInjection,
-  setWaterSatBelowGasLevelBeforeGasInjection,
-} from "../../store/gravity-drainage-slice";
+import { setSoiAndSwiGZ, setSwiWZ } from "../../store/gravity-drainage-slice";
 
 const GravityInputsBeforeInjection = () => {
-  const {
-    oil_sat_before_gas_injection,
-    water_sat_before_gas_injection,
-    water_sat_below_gas_level_before_gas_injection,
-  } = useSelector((state) => state.gravityDrainage);
+  const { soi_gz, swi_gz, swi_wz } = useSelector(
+    (state) => state.gravityDrainage
+  );
 
   const dispatch = useDispatch();
 
@@ -27,7 +22,7 @@ const GravityInputsBeforeInjection = () => {
       </thead>
       <tbody>
         <tr>
-          <td>Oil Sat. (Gas Invaded Zone)</td>
+          <td>Oil Sat. (Gas Invading Zone)</td>
           <td>fraction</td>
           <td className="text-center">
             <input
@@ -36,16 +31,14 @@ const GravityInputsBeforeInjection = () => {
               min="0.2"
               max="0.55"
               step="0.01"
-              value={oil_sat_before_gas_injection}
-              onChange={(e) =>
-                dispatch(setOilAndWaterSatBeforeGasInjection(e.target.value))
-              }
+              value={soi_gz}
+              onChange={(e) => dispatch(setSoiAndSwiGZ(e.target.value))}
             />
           </td>
-          <td className="text-center">{oil_sat_before_gas_injection}</td>
+          <td className="text-center">{soi_gz}</td>
         </tr>
         <tr>
-          <td>Water Sat. (Gas Invaded Zone)</td>
+          <td>Water Sat. (Gas Invading Zone)</td>
           <td>fraction</td>
           <td>
             <input
@@ -58,9 +51,7 @@ const GravityInputsBeforeInjection = () => {
               disabled
             />
           </td>
-          <td className="text-primary text-center">
-            {water_sat_before_gas_injection}
-          </td>
+          <td className="text-primary text-center">{swi_gz}</td>
         </tr>
 
         <tr>
@@ -89,17 +80,11 @@ const GravityInputsBeforeInjection = () => {
               min="0"
               max="0.50"
               step="0.01"
-              value={water_sat_below_gas_level_before_gas_injection}
-              onChange={(e) =>
-                dispatch(
-                  setWaterSatBelowGasLevelBeforeGasInjection(e.target.value)
-                )
-              }
+              value={swi_wz}
+              onChange={(e) => dispatch(setSwiWZ(e.target.value))}
             />
           </td>
-          <td className="text-center">
-            {water_sat_below_gas_level_before_gas_injection}
-          </td>
+          <td className="text-center">{swi_wz}</td>
         </tr>
       </tbody>
     </table>

@@ -4,43 +4,43 @@ import series_data from "./data/levels_data";
 
 const initial_data = {
   levels_series_data: series_data,
-  cum_injected_gas_volume: 1265,
-  gas_fvf: 0.003852,
-  oil_sat_before_gas_injection: 0.47,
-  oil_sat_after_gas_injection: 0.2,
-  water_sat_before_gas_injection: 0.53,
-  water_sat_after_gas_injection: 0.25,
-  irr_liquid_sat_before_gas_injection: 1.0,
-  irr_liquid_sat_after_gas_injection: 0.45,
-  oil_swelling_factor: 1.2,
-  water_sat_below_gas_level_before_gas_injection: 0.53,
-  water_sat_below_gas_level_after_gas_injection: 0.15,
-  oil_fvf_before_gas_injection: 1.32,
-  oil_fvf_after_gas_injection: 1.32,
+  gas_vol: 1265,
+  gas_bg: 0.003852,
+  soi_gz: 0.47, //initial oil saturation in gas invading zone
+  sor_gz: 0.2,
+  swi_gz: 0.53,
+  swr_gz: 0.25,
+  sli_gz: 1.0,
+  slr_gz: 0.45,
+  swi_wz: 0.53,
+  swr_wz: 0.15,
+  oil_sf: 1.2,
+  boi_gz: 1.32,
+  bo_gz: 1.32,
 };
 
 function get_fluid_levels(
   a,
   b,
-  gv,
-  bg,
-  swrg,
-  sorg,
-  soig,
-  sf,
-  swi_below_gas,
-  swr_below_gas,
+  gas_vol,
+  gas_bg,
+  swr_gz,
+  sor_gz,
+  soi_gz,
+  oil_sf,
+  swi_wz,
+  swr_wz,
   ref_level = -994
 ) {
-  const gas_pv = (gv * bg) / (1.0 - swrg - sorg);
+  const gas_pv = (gas_vol * gas_bg) / (1.0 - swr_gz - sor_gz);
   let gas_level_m = (-b + Math.sqrt(b * b + 4.0 * a * gas_pv)) / (2.0 * a);
   gas_level_m = -gas_level_m + ref_level;
 
-  const residual_oil_volume_contacted_by_gas = soig * gas_pv;
-  const drainable_oil_volume_contacted_by_gas = gas_pv * (soig - sorg) * sf;
+  const residual_oil_volume_contacted_by_gas = soi_gz * gas_pv;
+  const drainable_oil_volume_contacted_by_gas =
+    gas_pv * (soi_gz - sor_gz) * oil_sf;
 
-  const oil_pv =
-    drainable_oil_volume_contacted_by_gas / (swi_below_gas - swr_below_gas);
+  const oil_pv = drainable_oil_volume_contacted_by_gas / (swi_wz - swr_wz);
   let oil_level_m =
     (-b + Math.sqrt(b * b + 4.0 * a * (gas_pv + oil_pv))) / (2.0 * a);
   oil_level_m = -oil_level_m + ref_level;
@@ -55,34 +55,31 @@ const gravityDrainageSlice = createSlice({
   },
 
   reducers: {
-    setLevelSeriesData: (state) => {
-      const a_coeff_center_clive = 0.02290258577;
-      const b_coeff_center_clive = -0.07259620926;
-      const a = a_coeff_center_clive;
-      const b = b_coeff_center_clive;
+    setOilAndGasLevels: (state) => {
+      const a = 0.02290258577; //a_coeff_center_clive for hcvp vs height
+      const b = -0.07259620926; //b_coeff_center_clive for hcpv vs height
       const {
-        cum_injected_gas_volume: gv,
-        gas_fvf: bg,
-        water_sat_after_gas_injection: swrg,
-        // water_sat_before_gas_injection: swig,
-        oil_sat_after_gas_injection: sorg,
-        oil_sat_before_gas_injection: soig,
-        oil_swelling_factor: sf,
-        water_sat_below_gas_level_before_gas_injection: swi_below_gas,
-        water_sat_below_gas_level_after_gas_injection: swr_below_gas,
+        gas_vol,
+        gas_bg,
+        swr_gz,
+        sor_gz,
+        soi_gz,
+        oil_sf,
+        swi_wz,
+        swr_wz,
       } = state;
 
       const [gas_level_m, oil_level_m] = get_fluid_levels(
         a,
         b,
-        gv,
-        bg,
-        swrg,
-        sorg,
-        soig,
-        sf,
-        swi_below_gas,
-        swr_below_gas
+        gas_vol,
+        gas_bg,
+        swr_gz,
+        sor_gz,
+        soi_gz,
+        oil_sf,
+        swi_wz,
+        swr_wz
       );
 
       state.levels_series_data = [
@@ -124,79 +121,58 @@ const gravityDrainageSlice = createSlice({
       ];
     },
 
-    setCumInjectedGasVolume: (state, action) => {
+    setGasVol: (state, action) => {
       const { payload } = action;
-      state.cum_injected_gas_volume = parseFloat(payload);
+      state.gas_vol = parseFloat(payload);
     },
     setGasFVF: (state, action) => {
       const { payload } = action;
-      state.gas_fvf *= 1.0 + parseFloat(payload) / 100.0;
+      state.gas_bg *= 1.0 + parseFloat(payload) / 100.0;
     },
-    setOilAndWaterSatBeforeGasInjection: (state, action) => {
+    setSoiAndSwiGZ: (state, action) => {
       const { payload } = action;
-      const oil_sat_before_gas_injection = parseFloat(payload);
-      state.oil_sat_before_gas_injection = oil_sat_before_gas_injection;
-      state.water_sat_before_gas_injection = roundNumber(
-        1 - oil_sat_before_gas_injection,
-        3
-      );
-      state.irr_liquid_sat_before_gas_injection = roundNumber(
-        oil_sat_before_gas_injection + state.water_sat_before_gas_injection,
-        3
-      );
-      if (
-        state.water_sat_before_gas_injection <
-        state.water_sat_after_gas_injection
-      )
-        state.water_sat_after_gas_injection =
-          state.water_sat_before_gas_injection;
+      const soi = parseFloat(payload);
+      state.soi_gz = soi;
+      state.swi_gz = roundNumber(1 - soi, 3);
+      state.sli_gz = roundNumber(soi + state.swi_gz, 3);
+      if (state.swi_gz < state.swr_gz) state.swr_gz = state.swi_gz;
     },
-    setOilSatAfterGasInjection: (state, action) => {
+    setSorGZ: (state, action) => {
       const { payload } = action;
-      state.oil_sat_after_gas_injection = parseFloat(payload);
-      const value =
-        state.oil_sat_after_gas_injection + state.water_sat_after_gas_injection;
-      state.irr_liquid_sat_after_gas_injection = roundNumber(value, 3);
+      state.sor_gz = parseFloat(payload);
+      const value = state.sor_gz + state.swr_gz;
+      state.slr_gz = roundNumber(value, 3);
     },
-    setWaterSatAfterGasInjection: (state, action) => {
+    setSwrGZ: (state, action) => {
       const { payload } = action;
-      state.water_sat_after_gas_injection = parseFloat(payload);
-      const value =
-        state.oil_sat_after_gas_injection + state.water_sat_after_gas_injection;
-
-      state.irr_liquid_sat_after_gas_injection = roundNumber(value, 3);
+      state.swr_gz = parseFloat(payload);
+      const value = state.sor_gz + state.swr_gz;
+      state.slr_gz = roundNumber(value, 3);
     },
-    setWaterSatBelowGasLevelBeforeGasInjection: (state, action) => {
+    setSwiWZ: (state, action) => {
       const { payload } = action;
-      state.water_sat_below_gas_level_before_gas_injection =
-        parseFloat(payload);
+      state.swi_wz = parseFloat(payload);
     },
-    setWaterSatBelowGasLevelAfterGasInjection: (state, action) => {
+    setSwrWZ: (state, action) => {
       const { payload } = action;
-      state.water_sat_below_gas_level_after_gas_injection = parseFloat(payload);
+      state.swr_wz = parseFloat(payload);
     },
-    setOilSwellingFactor: (state, action) => {
+    setOilSF: (state, action) => {
       const { payload } = action;
-      state.oil_swelling_factor = parseFloat(payload);
-    },
-    setOilFVFAfterGasInjection: (state, action) => {
-      const { payload } = action;
-      state.oil_fvf_after_gas_injection = parseFloat(payload);
+      state.oil_sf = parseFloat(payload);
     },
   },
 });
 
 export const {
-  setCumInjectedGasVolume,
+  setGasVol,
   setGasFVF,
-  setOilAndWaterSatBeforeGasInjection,
-  setOilSatAfterGasInjection,
-  setWaterSatAfterGasInjection,
-  setWaterSatBelowGasLevelBeforeGasInjection,
-  setWaterSatBelowGasLevelAfterGasInjection,
-  setOilSwellingFactor,
-  setOilFVFAfterGasInjection,
-  setOilFVFBeforeGasInjection,
-  setLevelSeriesData,
+  setSoiAndSwiGZ,
+  setSorGZ,
+  setSwrGZ,
+  setSwiWZ,
+  setSwrWZ,
+  setOilSF,
+  setOilAndGasLevels,
 } = gravityDrainageSlice.actions;
 export default gravityDrainageSlice.reducer;

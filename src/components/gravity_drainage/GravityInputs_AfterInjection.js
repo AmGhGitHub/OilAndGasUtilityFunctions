@@ -1,20 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
 
 import {
-  setOilSatAfterGasInjection,
-  setWaterSatAfterGasInjection,
-  setOilSwellingFactor,
-  setWaterSatBelowGasLevelAfterGasInjection,
-  setLevelSeriesData,
+  setSorGZ,
+  setSwrGZ,
+  setOilSF,
+  setSwrWZ,
+  setOilAndGasLevels,
 } from "../../store/gravity-drainage-slice";
 
 const GravityInputsAfterInjection = () => {
-  const {
-    oil_sat_after_gas_injection,
-    water_sat_after_gas_injection,
-    oil_swelling_factor,
-    water_sat_below_gas_level_after_gas_injection,
-  } = useSelector((state) => state.gravityDrainage);
+  const { sor_gz, swr_gz, oil_sf, swr_wz } = useSelector(
+    (state) => state.gravityDrainage
+  );
 
   const dispatch = useDispatch();
 
@@ -38,15 +35,14 @@ const GravityInputsAfterInjection = () => {
               <input
                 type="range"
                 className="form-range"
-                min="0.1"
+                min="0.05"
                 max="0.5"
                 step="0.01"
-                onChange={(e) =>
-                  dispatch(setOilSatAfterGasInjection(e.target.value))
-                }
+                value={sor_gz}
+                onChange={(e) => dispatch(setSorGZ(e.target.value))}
               />
             </td>
-            <td className="text-center">{oil_sat_after_gas_injection}</td>
+            <td className="text-center">{sor_gz}</td>
           </tr>
           <tr>
             <td>Water Sat. (Gas Invaded Zone)</td>
@@ -54,16 +50,15 @@ const GravityInputsAfterInjection = () => {
             <td>
               <input
                 type="range"
-                min="0"
+                min="0.15"
                 max="0.5"
                 step=".01"
+                value={swr_gz}
                 className="form-range"
-                onChange={(e) =>
-                  dispatch(setWaterSatAfterGasInjection(e.target.value))
-                }
+                onChange={(e) => dispatch(setSwrGZ(e.target.value))}
               />
             </td>
-            <td className="text-center">{water_sat_after_gas_injection}</td>
+            <td className="text-center">{swr_gz}</td>
           </tr>
 
           <tr>
@@ -76,11 +71,11 @@ const GravityInputsAfterInjection = () => {
                 min="1"
                 max="2"
                 step="0.01"
-                value={oil_swelling_factor}
-                onChange={(e) => dispatch(setOilSwellingFactor(e.target.value))}
+                value={oil_sf}
+                onChange={(e) => dispatch(setOilSF(e.target.value))}
               />
             </td>
-            <td className="text-center">{oil_swelling_factor}</td>
+            <td className="text-center">{oil_sf}</td>
           </tr>
           <tr>
             <td>Water Sat. (Below Gas Level)</td>
@@ -92,17 +87,11 @@ const GravityInputsAfterInjection = () => {
                 min="0.15"
                 max="0.4"
                 step="0.01"
-                value={water_sat_below_gas_level_after_gas_injection}
-                onChange={(e) =>
-                  dispatch(
-                    setWaterSatBelowGasLevelAfterGasInjection(e.target.value)
-                  )
-                }
+                value={swr_wz}
+                onChange={(e) => dispatch(setSwrWZ(e.target.value))}
               />
             </td>
-            <td className="text-center">
-              {water_sat_below_gas_level_after_gas_injection}
-            </td>
+            <td className="text-center"> {swr_wz}</td>
           </tr>
         </tbody>
       </table>
@@ -111,7 +100,7 @@ const GravityInputsAfterInjection = () => {
           type="submit"
           size="md"
           className="btn btn-outline-success"
-          onClick={() => dispatch(setLevelSeriesData())}
+          onClick={() => dispatch(setOilAndGasLevels())}
         >
           Run
         </button>
