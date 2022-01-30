@@ -95,16 +95,6 @@ const GravityInputsAfterInjection = () => {
           </tr>
         </tbody>
       </table>
-      <div className="d-flex justify-content-end">
-        <button
-          type="submit"
-          size="md"
-          className="btn btn-outline-success"
-          onClick={() => dispatch(setOilAndGasLevels())}
-        >
-          Run
-        </button>
-      </div>
     </>
   );
 };
