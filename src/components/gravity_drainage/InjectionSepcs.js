@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { formatThousandSeparator, formatGasBg } from "../../util/numberUtility";
 
 import { setGasVol, setGasFVF } from "../../store/gravity-drainage-slice";
+import { setOilAndGasLevels } from "../../store/gravity-drainage-slice";
 
 const InjectionSepcs = () => {
   const [bgDev_pct, setBgDevPct] = useState(0);
@@ -25,7 +26,10 @@ const InjectionSepcs = () => {
                   max="4000"
                   className="w-100"
                   value={gas_vol}
-                  onChange={(e) => dispatch(setGasVol(e.target.value))}
+                  onChange={(e) => {
+                    dispatch(setGasVol(e.target.value));
+                  }}
+                  onMouseUp={() => dispatch(setOilAndGasLevels())}
                 />
               </div>
               <div className="col-sm-2">
@@ -48,6 +52,7 @@ const InjectionSepcs = () => {
                     setBgDevPct(e.target.value);
                     dispatch(setGasFVF(e.target.value));
                   }}
+                  onMouseUp={() => dispatch(setOilAndGasLevels())}
                 />
                 <p className="text-danger">{formatGasBg(gas_bg)}e-3 rm3/sm3</p>
               </div>

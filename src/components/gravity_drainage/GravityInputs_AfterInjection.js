@@ -6,6 +6,7 @@ import {
   setOilSF,
   setSwrWZ,
 } from "../../store/gravity-drainage-slice";
+import { setOilAndGasLevels } from "../../store/gravity-drainage-slice";
 
 import { fixedDecimalNumber } from "../../util/numberUtility";
 
@@ -39,7 +40,10 @@ const GravityInputsAfterInjection = () => {
                 min="8"
                 max="55"
                 value={sor_gz}
-                onChange={(e) => dispatch(setSorGZ(e.target.value))}
+                onChange={(e) => {
+                  dispatch(setSorGZ(e.target.value));
+                }}
+                onMouseUp={() => dispatch(setOilAndGasLevels())}
               />
             </td>
             <td className="text-center">{sor_gz}</td>
@@ -54,7 +58,10 @@ const GravityInputsAfterInjection = () => {
                 max="50"
                 value={swr_gz}
                 className="form-range"
-                onChange={(e) => dispatch(setSwrGZ(e.target.value))}
+                onChange={(e) => {
+                  dispatch(setSwrGZ(e.target.value));
+                }}
+                onMouseUp={() => dispatch(setOilAndGasLevels())}
               />
             </td>
             <td className="text-center">{swr_gz}</td>
@@ -71,7 +78,10 @@ const GravityInputsAfterInjection = () => {
                 max="2"
                 step="0.01"
                 value={oil_sf}
-                onChange={(e) => dispatch(setOilSF(e.target.value))}
+                onChange={(e) => {
+                  dispatch(setOilSF(e.target.value));
+                }}
+                onMouseUp={() => dispatch(setOilAndGasLevels())}
               />
             </td>
             <td className="text-center">{fixedDecimalNumber(oil_sf, 2)}</td>
@@ -86,7 +96,10 @@ const GravityInputsAfterInjection = () => {
                 min="15"
                 max="40"
                 value={swr_wz}
-                onChange={(e) => dispatch(setSwrWZ(e.target.value))}
+                onChange={(e) => {
+                  dispatch(setSwrWZ(e.target.value));
+                }}
+                onMouseUp={() => dispatch(setOilAndGasLevels())}
               />
             </td>
             <td className="text-center"> {swr_wz}</td>

@@ -1,7 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { setSoiAndSwiGZ, setSwiWZ } from "../../store/gravity-drainage-slice";
-import { fixedDecimalNumber } from "../../util/numberUtility";
+import {
+  setSoiAndSwiGZ,
+  setSwiWZ,
+  setOilAndGasLevels,
+} from "../../store/gravity-drainage-slice";
 
 const GravityInputsBeforeInjection = () => {
   const { soi_gz, swi_gz, swi_wz } = useSelector(
@@ -31,7 +34,10 @@ const GravityInputsBeforeInjection = () => {
               min="20"
               max="55"
               value={soi_gz}
-              onChange={(e) => dispatch(setSoiAndSwiGZ(e.target.value))}
+              onChange={(e) => {
+                dispatch(setSoiAndSwiGZ(e.target.value));
+              }}
+              onMouseUp={() => dispatch(setOilAndGasLevels())}
             />
           </td>
           <td className="text-center">{soi_gz}</td>
@@ -63,7 +69,10 @@ const GravityInputsBeforeInjection = () => {
               min="15"
               max="53"
               value={swi_wz}
-              onChange={(e) => dispatch(setSwiWZ(e.target.value))}
+              onChange={(e) => {
+                dispatch(setSwiWZ(e.target.value));
+              }}
+              onMouseUp={() => dispatch(setOilAndGasLevels())}
             />
           </td>
           <td className="text-center">{swi_wz}</td>

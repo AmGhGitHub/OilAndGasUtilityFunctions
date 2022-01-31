@@ -1,4 +1,4 @@
-import GravityGraph from "./GravityGraph";
+import GravityGraph from "./GravityResults";
 import GravityInputs from "./GarvityInputs";
 import InjectionSepcs from "./InjectionSepcs";
 import GravityLogo from "./GravityLogo";

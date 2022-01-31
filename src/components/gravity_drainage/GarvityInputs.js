@@ -1,7 +1,16 @@
+import { useEffect } from "react";
 import GravityInputsBeforeInjection from "./GravityInputs_BeforInjection";
 import GravityInputsAfterInjection from "./GravityInputs_AfterInjection";
-import RunModel from "./RunModel";
+import { useDispatch } from "react-redux";
+import { setOilAndGasLevels } from "../../store/gravity-drainage-slice";
+
 const GarvityInputs = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setOilAndGasLevels());
+  }, []);
+
   return (
     <section className="mt-4">
       <div className="container border">
@@ -14,11 +23,6 @@ const GarvityInputs = () => {
           <div className="col-md-6">
             <h5 className="text-primary">After Gas Injection</h5>
             <GravityInputsAfterInjection />
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="d-flex justify-content-end">
-            <RunModel />
           </div>
         </div>
       </div>

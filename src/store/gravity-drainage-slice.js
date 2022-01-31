@@ -177,6 +177,15 @@ const gravityDrainageSlice = createSlice({
           },
         },
       ];
+
+      state.gas_pv = gas_pv;
+      state.oil_pv = oil_pv;
+      state.oil_layer_thickness_m = oil_layer_thickness_m;
+      state.oil_drainage_recovery_efficiency = oil_drainage_recovery_efficiency;
+      state.total_oil_volume_contacted_by_gas =
+        total_oil_volume_contacted_by_gas;
+      state.drainable_oil_volume_contacted_by_gas =
+        drainable_oil_volume_contacted_by_gas;
     },
 
     setGasVol: (state, action) => {
