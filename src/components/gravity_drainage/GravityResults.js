@@ -128,16 +128,16 @@ const GravityGraph = () => {
             <div className="row mt-3 d-flex align-items-center mx-2">
               <div class="row">
                 <div class="col fs-5 text-white">
-                  <div class="p-2 bg-warning">Oil Layer Thickness</div>
-                  <div class="ps-2 bg-warning">(m)</div>
-                  <div class="p-2 bg-warning bg-gradient fw-bolder">
+                  <div class="p-2 bg-success">Oil Layer Thickness</div>
+                  <div class="ps-2 bg-success">(m)</div>
+                  <div class="p-2 bg-success bg-gradient fw-bolder">
                     {fixedDecimalNumber(oil_layer_thickness_m, 2)}
                   </div>
                 </div>
                 <div class="col fs-5 text-white">
-                  <div class="p-2 bg-warning">Recovery Efficiency</div>
-                  <div class="ps-2 bg-warning">(%)</div>
-                  <div class="p-2 bg-warning bg-gradient fw-bolder">
+                  <div class="p-2 bg-success">Recovery Efficiency</div>
+                  <div class="ps-2 bg-success">(%)</div>
+                  <div class="p-2 bg-success bg-gradient fw-bolder">
                     {fixedDecimalNumber(oil_drainage_recovery_efficiency, 2)}
                   </div>
                 </div>

@@ -118,6 +118,7 @@ const gravityDrainageSlice = createSlice({
       state.soi_gz = soi;
       state.swi_gz = 100 - soi;
       if (state.swi_gz < state.swr_gz) state.swr_gz = state.swi_gz;
+      if (state.soi_gz < state.sor_gz) state.sor_gz = state.soi_gz;
     },
     setSorGZ: (state, action) => {
       const { payload } = action;
