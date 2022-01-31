@@ -83,53 +83,63 @@ const GravityGraph = () => {
           <div className="col-md">
             <h5 className="text-primary">Volumetric Parameters</h5>
             <div className="row mt-3 d-flex align-items-center mx-2">
-              <h6 className="text-secondary">Gas & Oil Volumes</h6>
-              <div>
-                <div className="p-2 bg-danger  text-white">
-                  Gas Pore Volume (E6rm3)
+              <h6 className="text-primary fw-bold">Occupied Pore Volume</h6>
+              <div class="row">
+                <div class="col fs-5 text-white">
+                  <div class="p-2 bg-danger">Gas Pore Volume</div>
+                  <div class="ps-2 bg-danger">(E6rm3)</div>
+                  <div class="p-2 bg-danger bg-gradient fw-bold">
+                    {fixedDecimalNumber(gas_pv, 2)}
+                  </div>
                 </div>
-                <div className="fs-5 text-secondary">
-                  {fixedDecimalNumber(gas_pv, 2)}
-                </div>
-
-                <div className="p-2 bg-danger text-white">
-                  Oil Pore Volume (E6rm3)
-                </div>
-                <div className="fs-5 text-secondary">
-                  {fixedDecimalNumber(oil_pv, 2)}
+                <div class="col fs-5 text-white">
+                  <div class="p-2 bg-danger">Oil Pore Volume</div>
+                  <div class="ps-2 bg-danger">(E6rm3)</div>
+                  <div class="p-2 bg-danger bg-gradient fw-bold">
+                    {fixedDecimalNumber(oil_pv, 2)}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="row mt-3 d-flex align-items-center mx-2">
-              <h6 className="text-secondary">Volumetric Efficiencies</h6>
-              <div>
-                <div className="p-2 bg-primary text-white">
-                  Total Oil Volume Contacted (E6rm3)
+              <h6 className="text-primary fw-bold">Volumetric Efficiencies</h6>
+              <div class="row">
+                <div class="col fs-5 text-white">
+                  <div class="p-2 bg-success">Total Oil Volume Contacted</div>
+                  <div class="ps-2 bg-success">(E6rm3)</div>
+                  <div class="p-2 bg-success bg-gradient fw-bold">
+                    {fixedDecimalNumber(total_oil_volume_contacted_by_gas, 2)}
+                  </div>
                 </div>
-                <div className="fs-5 text-secondary">
-                  {fixedDecimalNumber(total_oil_volume_contacted_by_gas, 2)}
+                <div class="col fs-5 text-white">
+                  <div class="p-2 bg-success">Drainable Oil Volume</div>
+                  <div class="ps-2 bg-success">(E6rm3)</div>
+                  <div class="p-2 bg-success bg-gradient fw-bolder">
+                    {fixedDecimalNumber(
+                      drainable_oil_volume_contacted_by_gas,
+                      2
+                    )}
+                  </div>
                 </div>
+              </div>
+            </div>
 
-                <div className="p-2 bg-primary text-white">
-                  Drainable Oil Volume (E6rm3)
+            <div className="row mt-3 d-flex align-items-center mx-2">
+              <div class="row">
+                <div class="col fs-5 text-white">
+                  <div class="p-2 bg-warning">Oil Layer Thickness</div>
+                  <div class="ps-2 bg-warning">(m)</div>
+                  <div class="p-2 bg-warning bg-gradient fw-bolder">
+                    {fixedDecimalNumber(oil_layer_thickness_m, 2)}
+                  </div>
                 </div>
-                <div className="fs-5 text-secondary">
-                  {fixedDecimalNumber(drainable_oil_volume_contacted_by_gas, 2)}
-                </div>
-
-                <div className="p-2 bg-primary text-white">
-                  Oil Layer Thickness (E6rm3)
-                </div>
-                <div className="fs-5 text-secondary">
-                  {fixedDecimalNumber(oil_layer_thickness_m, 2)}
-                </div>
-
-                <div className="p-2 bg-primary text-white">
-                  Recovery Efficiency (%)
-                </div>
-                <div className="fs-5 text-secondary">
-                  {fixedDecimalNumber(oil_drainage_recovery_efficiency, 2)}
+                <div class="col fs-5 text-white">
+                  <div class="p-2 bg-warning">Recovery Efficiency</div>
+                  <div class="ps-2 bg-warning">(%)</div>
+                  <div class="p-2 bg-warning bg-gradient fw-bolder">
+                    {fixedDecimalNumber(oil_drainage_recovery_efficiency, 2)}
+                  </div>
                 </div>
               </div>
             </div>
