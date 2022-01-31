@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setSoiAndSwiGZ,
   setSwiWZ,
-  setOilAndGasLevels,
+  setVolumetricValues,
 } from "../../store/gravity-drainage-slice";
 
 const GravityInputsBeforeInjection = () => {
@@ -37,7 +37,7 @@ const GravityInputsBeforeInjection = () => {
               onChange={(e) => {
                 dispatch(setSoiAndSwiGZ(e.target.value));
               }}
-              onMouseUp={() => dispatch(setOilAndGasLevels())}
+              onMouseUp={() => dispatch(setVolumetricValues())}
             />
           </td>
           <td className="text-center">{soi_gz}</td>
@@ -72,7 +72,7 @@ const GravityInputsBeforeInjection = () => {
               onChange={(e) => {
                 dispatch(setSwiWZ(e.target.value));
               }}
-              onMouseUp={() => dispatch(setOilAndGasLevels())}
+              onMouseUp={() => dispatch(setVolumetricValues())}
             />
           </td>
           <td className="text-center">{swi_wz}</td>

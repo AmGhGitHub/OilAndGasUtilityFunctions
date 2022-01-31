@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import GravityInputsBeforeInjection from "./GravityInputs_BeforInjection";
 import GravityInputsAfterInjection from "./GravityInputs_AfterInjection";
 import { useDispatch } from "react-redux";
-import { setOilAndGasLevels } from "../../store/gravity-drainage-slice";
+import { setVolumetricValues } from "../../store/gravity-drainage-slice";
 
 const GarvityInputs = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setOilAndGasLevels());
+    dispatch(setVolumetricValues());
   }, []);
 
   return (

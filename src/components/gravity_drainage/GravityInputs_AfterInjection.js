@@ -6,7 +6,7 @@ import {
   setOilSF,
   setSwrWZ,
 } from "../../store/gravity-drainage-slice";
-import { setOilAndGasLevels } from "../../store/gravity-drainage-slice";
+import { setVolumetricValues } from "../../store/gravity-drainage-slice";
 
 import { fixedDecimalNumber } from "../../util/numberUtility";
 
@@ -43,7 +43,7 @@ const GravityInputsAfterInjection = () => {
                 onChange={(e) => {
                   dispatch(setSorGZ(e.target.value));
                 }}
-                onMouseUp={() => dispatch(setOilAndGasLevels())}
+                onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center">{sor_gz}</td>
@@ -61,7 +61,7 @@ const GravityInputsAfterInjection = () => {
                 onChange={(e) => {
                   dispatch(setSwrGZ(e.target.value));
                 }}
-                onMouseUp={() => dispatch(setOilAndGasLevels())}
+                onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center">{swr_gz}</td>
@@ -81,7 +81,7 @@ const GravityInputsAfterInjection = () => {
                 onChange={(e) => {
                   dispatch(setOilSF(e.target.value));
                 }}
-                onMouseUp={() => dispatch(setOilAndGasLevels())}
+                onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center">{fixedDecimalNumber(oil_sf, 2)}</td>
@@ -99,7 +99,7 @@ const GravityInputsAfterInjection = () => {
                 onChange={(e) => {
                   dispatch(setSwrWZ(e.target.value));
                 }}
-                onMouseUp={() => dispatch(setOilAndGasLevels())}
+                onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center"> {swr_wz}</td>
