@@ -42,8 +42,9 @@ const GravityInputsAfterInjection = () => {
                 value={sor_gz}
                 onChange={(e) => {
                   dispatch(setSorGZ(e.target.value));
+                  dispatch(setVolumetricValues());
                 }}
-                onMouseUp={() => dispatch(setVolumetricValues())}
+                // onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center">{sor_gz}</td>
@@ -60,8 +61,9 @@ const GravityInputsAfterInjection = () => {
                 className="form-range"
                 onChange={(e) => {
                   dispatch(setSwrGZ(e.target.value));
+                  dispatch(setVolumetricValues());
                 }}
-                onMouseUp={() => dispatch(setVolumetricValues())}
+                // onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center">{swr_gz}</td>
@@ -80,8 +82,9 @@ const GravityInputsAfterInjection = () => {
                 value={oil_sf}
                 onChange={(e) => {
                   dispatch(setOilSF(e.target.value));
+                  dispatch(setVolumetricValues());
                 }}
-                onMouseUp={() => dispatch(setVolumetricValues())}
+                // onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center">{fixedDecimalNumber(oil_sf, 2)}</td>
@@ -98,8 +101,8 @@ const GravityInputsAfterInjection = () => {
                 value={swr_wz}
                 onChange={(e) => {
                   dispatch(setSwrWZ(e.target.value));
+                  dispatch(setVolumetricValues());
                 }}
-                onMouseUp={() => dispatch(setVolumetricValues())}
               />
             </td>
             <td className="text-center"> {swr_wz}</td>

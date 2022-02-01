@@ -36,8 +36,9 @@ const GravityInputsBeforeInjection = () => {
               value={soi_gz}
               onChange={(e) => {
                 dispatch(setSoiAndSwiGZ(e.target.value));
+                dispatch(setVolumetricValues());
               }}
-              onMouseUp={() => dispatch(setVolumetricValues())}
+              // onMouseUp={() => dispatch(setVolumetricValues())}
             />
           </td>
           <td className="text-center">{soi_gz}</td>
@@ -71,8 +72,9 @@ const GravityInputsBeforeInjection = () => {
               value={swi_wz}
               onChange={(e) => {
                 dispatch(setSwiWZ(e.target.value));
+                dispatch(setVolumetricValues());
               }}
-              onMouseUp={() => dispatch(setVolumetricValues())}
+              // onMouseUp={() => dispatch(setVolumetricValues())}
             />
           </td>
           <td className="text-center">{swi_wz}</td>

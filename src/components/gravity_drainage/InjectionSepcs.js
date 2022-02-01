@@ -28,8 +28,9 @@ const InjectionSepcs = () => {
                   value={gas_vol}
                   onChange={(e) => {
                     dispatch(setGasVol(e.target.value));
+                    dispatch(setVolumetricValues());
                   }}
-                  onMouseUp={() => dispatch(setVolumetricValues())}
+                  // onMouseUp={() => dispatch(setVolumetricValues())}
                 />
               </div>
               <div className="col-sm-2">
@@ -51,8 +52,9 @@ const InjectionSepcs = () => {
                   onChange={(e) => {
                     setBgDevPct(e.target.value);
                     dispatch(setGasFVF(e.target.value));
+                    dispatch(setVolumetricValues());
                   }}
-                  onMouseUp={() => dispatch(setVolumetricValues())}
+                  // onMouseUp={() => dispatch(setVolumetricValues())}
                 />
                 <p className="text-danger">{formatGasBg(gas_bg)}e-3 rm3/sm3</p>
               </div>

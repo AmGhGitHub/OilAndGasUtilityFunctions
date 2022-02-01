@@ -106,7 +106,7 @@ const GravityGraph = () => {
               <h6 className="text-primary fw-bold">Volumetric Efficiencies</h6>
               <div class="row">
                 <div class="col fs-5 text-white">
-                  <div class="p-2 bg-success">Total Oil Volume Contacted</div>
+                  <div class="p-2 bg-success">Contacted Oil Volume</div>
                   <div class="ps-2 bg-success">(E6rm3)</div>
                   <div class="p-2 bg-success bg-gradient fw-bold">
                     {fixedDecimalNumber(total_oil_volume_contacted_by_gas, 2)}
